@@ -43,3 +43,40 @@ const batman = heroes.map(hero => hero === "batman");
   ]
 }
 ```
+## 1.2. Script to deactivate update sets
+```js
+var gr = new GlideRecord('sys_update_set');
+gr.addQuery('installed_from=https://clstest.service-now.com^sys_created_by=ekovacs^state=complete');
+gr.query();
+var i = 0;
+while(gr.next()){
+    i++;
+    gr.setWorkflow(false);
+    gs.print(i + gr.name.getDisplayValue().toString());
+    gr.state = 'ignore';
+    gr.update();
+}
+gs.print(i);
+```
+
+## 1.3. Portal stuff
+
+```css
+.sfn-class {
+  background-color: salmon;
+}
+```
+
+
+> In client controller use `$scope.server.get()`
+
+```js
+$scope.server
+    .get({action: 'update', target: 'somesysid'})
+    .then(function(result){
+      process(result);
+    })
+    .catch(function(exception){
+      console.log(exception.toString());
+    });
+```
